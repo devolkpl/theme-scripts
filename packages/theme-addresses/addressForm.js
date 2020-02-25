@@ -117,18 +117,26 @@ function setLabels(formElements, country) {
 function populateCountries(formElements, countries) {
   var countrySelect = formElements.country.input;
   var duplicatedCountrySelect = countrySelect.cloneNode(true);
+  var countryCodeKey = [];
 
   countries.forEach(function(country) {
     var optionElement = document.createElement('option');
     optionElement.value = country.code;
     optionElement.textContent = country.name;
     duplicatedCountrySelect.appendChild(optionElement);
+    countryCodeKey[country.name] = country.code;
   });
 
   countrySelect.innerHTML = duplicatedCountrySelect.innerHTML;
 
   if (countrySelect.dataset.default) {
-    countrySelect.value = countrySelect.dataset.default;
+    var defaultValue = countrySelect.dataset.default;
+
+    if (defaultValue.length > 2 && countryCodeKey.hasOwnProperty(defaultValue)) {
+      defaultValue = countryCodeKey[defaultValue];
+    }
+
+    countrySelect.value = defaultValue;
   }
 }
 
@@ -163,7 +171,16 @@ function populateZones(formElements, country) {
   zoneSelect.innerHTML = duplicatedZoneSelect.innerHTML;
 
   if (zoneSelect.dataset.default) {
-    zoneSelect.value = zoneSelect.dataset.default;
+    var defaultValue = zoneSelect.dataset.default.length > 2 ? country.zones.find((zone) => {
+      return zone.code === zoneSelect.dataset.default;
+    }) : zoneSelect.dataset.default;
+
+    if (typeof defaultValue === 'object') {
+      defaultValue = defaultValue.code;
+    }
+    if( defaultValue !== undefined ){
+      zoneSelect.value = defaultValue;
+    }
   }
 }
 
