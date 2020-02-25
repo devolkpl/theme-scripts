@@ -1,5 +1,5 @@
 import Listeners from './listeners';
-import { getVariantFromSerializedArray } from '@shopify/theme-product';
+import { getVariantFromSerializedArray } from '../theme-product';
 
 var selectors = {
   idInput: '[name="id"]',
