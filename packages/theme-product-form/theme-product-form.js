@@ -122,7 +122,7 @@ ProductForm.prototype.properties = function() {
  */
 ProductForm.prototype.quantity = function() {
   return this.quantityInputs[0]
-    ? Number.parseInt(this.quantityInputs[0].value, 10)
+    ? this.quantityInputs[0].value
     : 1;
 };
 
